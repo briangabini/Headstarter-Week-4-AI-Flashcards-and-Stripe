@@ -13,9 +13,12 @@ const firebaseConfig = {
     storageBucket: "flashcardsaas-fb818.appspot.com",
     messagingSenderId: "381832520810",
     appId: "1:381832520810:web:9d685677a4685de0039613",
-    measurementId: "G-FHBYZXDLN9"
+    measurementId: "G-FHBYZXDLN9",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
+const db = getFirestore(app);
+
+export { db };
