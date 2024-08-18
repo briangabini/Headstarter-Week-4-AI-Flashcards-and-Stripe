@@ -44,7 +44,10 @@ export async function POST(req) {
                 price_data: {
                     currency: "usd",
                     product_data: {
-                        name: "Pro Subscription",
+                        name:
+                            body.amount === 10
+                                ? "Pro Subscription"
+                                : "Basic Subscription",
                     },
                     unit_amount: formattedAmount,
                     recurring: {
