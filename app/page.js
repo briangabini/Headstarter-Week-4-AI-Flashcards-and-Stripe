@@ -12,6 +12,7 @@ import {
     Typography,
 } from "@mui/material";
 import Head from "next/head";
+import Link from "next/link";
 
 export default function Home() {
     const handleSubmit = async (amount) => {
@@ -89,7 +90,12 @@ export default function Home() {
                     {" "}
                     The easiest way to make flashcards from your text
                 </Typography>
-                <Button variant="contained" color="primary" sx={{ mt: 2 }}>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    sx={{ mt: 2 }}
+                    href="/generate"
+                >
                     Get Started
                 </Button>
             </Box>
