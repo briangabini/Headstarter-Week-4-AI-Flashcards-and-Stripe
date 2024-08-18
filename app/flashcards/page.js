@@ -84,11 +84,11 @@ export default function Flashcards() {
     const handleOpen = (flashcardName) => {
         setOpen(true);
         setOldName(flashcardName);
-        setName(flashcardName);
     };
 
     const handleClose = () => {
         setOpen(false);
+        setName("");
     };
 
     const editFlashcard = async (oldName, newName) => {
@@ -110,6 +110,12 @@ export default function Flashcards() {
             const flashcardIndex = collections.findIndex(
                 (f) => f.name === oldName,
             );
+            if (collections.some((f) => f.name === newName)) {
+                alert(
+                    "A flashcard with this name already exists. Please choose a different name.",
+                );
+                return;
+            }
 
             if (flashcardIndex === -1) {
                 alert("Flashcard collection not found");
@@ -159,6 +165,7 @@ export default function Flashcards() {
 
         copyAndDeleteOldSubCollection()
             .then(() => {
+                handleClose();
                 console.log("Subcollection name changed successfully.");
             })
             .catch((error) => {
