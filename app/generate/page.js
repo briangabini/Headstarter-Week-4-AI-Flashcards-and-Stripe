@@ -1,7 +1,13 @@
 "use client";
 
 import { useUser } from "@clerk/nextjs";
-import { collection, doc, getDoc, writeBatch, setDoc } from "@firebase/firestore";
+import {
+    collection,
+    doc,
+    getDoc,
+    writeBatch,
+    setDoc,
+} from "@firebase/firestore";
 import {
     Box,
     Button,
@@ -29,7 +35,7 @@ export default function Generate() {
     const [text, setText] = useState("");
     const [name, setName] = useState("");
     const [open, setOpen] = useState(false);
-    const { user } = useUser();  // Destructure the user object from useUser
+    const { user } = useUser(); // Destructure the user object from useUser
     const router = useRouter();
 
     const handleSubmit = async () => {
@@ -38,21 +44,23 @@ export default function Generate() {
                 method: "POST",
                 body: text,
             });
-    
+
             if (!res.ok) {
                 throw new Error("Failed to fetch flashcards");
             }
-    
+
             const data = await res.json();
-    
+
             if (!data) {
                 throw new Error("No data returned");
             }
-    
+
             setFlashcards(data);
         } catch (error) {
             console.error("Error fetching flashcards:", error);
-            alert("There was an error generating the flashcards. Please try again.");
+            alert(
+                "There was an error generating the flashcards. Please try again.",
+            );
         }
     };
 
@@ -83,7 +91,7 @@ export default function Generate() {
         }
 
         const batch = writeBatch(db);
-        const userDocRef = doc(collection(db, "users"), user.id);  // Use user.id to get the correct document reference
+        const userDocRef = doc(collection(db, "users"), user.id); // Use user.id to get the correct document reference
         const docSnap = await getDoc(userDocRef);
 
         if (docSnap.exists()) {
@@ -116,6 +124,9 @@ export default function Generate() {
 
     return (
         <Container maxWidth="md">
+            <Button href="/flashcards" variant="contained" color="primary">
+                Check Saved Flashcards
+            </Button>
             <Box
                 sx={{
                     mt: 4,
@@ -155,32 +166,43 @@ export default function Generate() {
                         {flashcards.map((flashcard, index) => (
                             <Grid item xs={12} sm={6} md={4} key={index}>
                                 <Card>
-                                    <CardActionArea onClick={() => handleCardClick(index)}>
+                                    <CardActionArea
+                                        onClick={() => handleCardClick(index)}
+                                    >
                                         <CardContent>
                                             <Box
                                                 sx={{
                                                     perspective: "1000px",
                                                     "& > div": {
-                                                        transition: "transform 0.6s",
-                                                        transformStyle: "preserve-3d",
+                                                        transition:
+                                                            "transform 0.6s",
+                                                        transformStyle:
+                                                            "preserve-3d",
                                                         position: "relative",
                                                         width: "100%",
                                                         height: "200px",
-                                                        boxShadow: "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
-                                                        transform: flipped[index]
+                                                        boxShadow:
+                                                            "0 4px 8px 0 rgba(0, 0, 0, 0.2)",
+                                                        transform: flipped[
+                                                            index
+                                                        ]
                                                             ? "rotateY(180deg)"
                                                             : "rotateY(0deg)",
                                                     },
                                                     "& > div > div": {
-                                                        transition: "transform 0.6s",
-                                                        transformStyle: "preserve-3d",
+                                                        transition:
+                                                            "transform 0.6s",
+                                                        transformStyle:
+                                                            "preserve-3d",
                                                         position: "absolute",
                                                         width: "100%",
                                                         height: "100%",
-                                                        backfaceVisibility: "hidden",
+                                                        backfaceVisibility:
+                                                            "hidden",
                                                         display: "flex",
                                                         alignItems: "center",
-                                                        justifyContent: "center",
+                                                        justifyContent:
+                                                            "center",
                                                         padding: 2,
                                                         boxSizing: "border-box",
                                                     },
@@ -188,15 +210,31 @@ export default function Generate() {
                                             >
                                                 <div>
                                                     {/* Front Side */}
-                                                    <div style={{ transform: "rotateY(0deg)" }}>
-                                                        <Typography variant="h5" component="div">
+                                                    <div
+                                                        style={{
+                                                            transform:
+                                                                "rotateY(0deg)",
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="h5"
+                                                            component="div"
+                                                        >
                                                             {flashcard.front}
                                                         </Typography>
                                                     </div>
 
                                                     {/* Back Side */}
-                                                    <div style={{ transform: "rotateY(180deg)" }}>
-                                                        <Typography variant="h5" component="div">
+                                                    <div
+                                                        style={{
+                                                            transform:
+                                                                "rotateY(180deg)",
+                                                        }}
+                                                    >
+                                                        <Typography
+                                                            variant="h5"
+                                                            component="div"
+                                                        >
                                                             {flashcard.back}
                                                         </Typography>
                                                     </div>
@@ -209,8 +247,18 @@ export default function Generate() {
                         ))}
                     </Grid>
 
-                    <Box sx={{ mt: 4, display: 'flex', justifyContent: 'center' }}>
-                        <Button variant="contained" color="primary" onClick={handleOpen}>
+                    <Box
+                        sx={{
+                            mt: 4,
+                            display: "flex",
+                            justifyContent: "center",
+                        }}
+                    >
+                        <Button
+                            variant="contained"
+                            color="primary"
+                            onClick={handleOpen}
+                        >
                             Save
                         </Button>
                     </Box>
