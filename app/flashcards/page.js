@@ -32,10 +32,14 @@ import { Router } from "next/router";
 import { useEffect, useState } from "react";
 import { db } from "../../firebase";
 import DeleteIcon from "@mui/icons-material/Delete";
+import EditIcon from "@mui/icons-material/Edit";
 
 export default function Flashcards() {
     const { isLoaded, isSignedIn, user } = useUser();
     const [flashcards, setFlashcards] = useState([]);
+    const [name, setName] = useState("");
+    const [oldName, setOldName] = useState("");
+    const [open, setOpen] = useState(false);
     const router = useRouter();
 
     useEffect(() => {
@@ -77,6 +81,91 @@ export default function Flashcards() {
         router.push(`/flashcard?id=${id}`);
     };
 
+    const handleOpen = (flashcardName) => {
+        setOpen(true);
+        setOldName(flashcardName);
+        setName(flashcardName);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
+    };
+
+    const editFlashcard = async (oldName, newName) => {
+        if (!newName) {
+            alert("Please enter a new name");
+            return;
+        }
+
+        if (!user) {
+            alert("User is not authenticated");
+            return;
+        }
+
+        const userDocRef = doc(db, "users", user.id);
+        const docSnap = await getDoc(userDocRef);
+
+        if (docSnap.exists()) {
+            let collections = docSnap.data().flashcards || [];
+            const flashcardIndex = collections.findIndex(
+                (f) => f.name === oldName,
+            );
+
+            if (flashcardIndex === -1) {
+                alert("Flashcard collection not found");
+                return;
+            }
+
+            collections[flashcardIndex].name = newName;
+            await setDoc(
+                userDocRef,
+                { flashcards: collections },
+                { merge: true },
+            );
+        } else {
+            alert("User document does not exist");
+            return;
+        }
+
+        setFlashcards(
+            flashcards.map((flashcard) => {
+                if (flashcard.name === oldName) {
+                    return { ...flashcard, name: newName };
+                }
+                return flashcard;
+            }),
+        );
+
+        const oldSubColRef = collection(userDocRef, oldName);
+
+        const newSubColRef = collection(userDocRef, newName);
+
+        async function copyAndDeleteOldSubCollection() {
+            const querySnapshot = await getDocs(oldSubColRef);
+            const batch = writeBatch(db);
+
+            querySnapshot.forEach((docSnapshot) => {
+                const oldDocRef = docSnapshot.ref;
+                const newDocRef = doc(
+                    db,
+                    `${newSubColRef.path}/${docSnapshot.id}`,
+                );
+                batch.set(newDocRef, docSnapshot.data());
+                batch.delete(oldDocRef);
+            });
+
+            await batch.commit();
+        }
+
+        copyAndDeleteOldSubCollection()
+            .then(() => {
+                console.log("Subcollection name changed successfully.");
+            })
+            .catch((error) => {
+                console.error("Error changing subcollection name: ", error);
+            });
+    };
+
     return (
         <Container>
             <Button href="/generate" variant="contained" color="primary">
@@ -96,6 +185,11 @@ export default function Flashcards() {
                                 </CardContent>
                             </CardActionArea>
                             <Button>
+                                <EditIcon
+                                    onClick={() => handleOpen(flashcard.name)}
+                                />
+                            </Button>
+                            <Button>
                                 <DeleteIcon
                                     onClick={() => handleDelete(flashcard.name)}
                                 />
@@ -104,6 +198,35 @@ export default function Flashcards() {
                     </Grid>
                 ))}
             </Grid>
+            <Dialog open={open} onClose={handleClose}>
+                <DialogTitle>Edit Flashcards</DialogTitle>
+                <DialogContent>
+                    <DialogContentText>
+                        Enter a name for the flashcard collection
+                    </DialogContentText>
+                    <TextField
+                        autoFocus
+                        margin="dense"
+                        label="Collection Name"
+                        type="text"
+                        fullWidth
+                        value={name}
+                        onChange={(e) => setName(e.target.value)}
+                        variant="outlined"
+                    />
+                </DialogContent>
+                <DialogActions>
+                    <Button onClick={handleClose} color="primary">
+                        Cancel
+                    </Button>
+                    <Button
+                        onClick={() => editFlashcard(oldName, name)}
+                        color="primary"
+                    >
+                        Save
+                    </Button>
+                </DialogActions>
+            </Dialog>
         </Container>
     );
 }
