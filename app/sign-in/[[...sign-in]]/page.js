@@ -7,35 +7,37 @@ import {
     Typography,
 } from "@mui/material";
 import Link from "next/link";
-import { SignIn } from "@clerk/nextjs";
+import { SignIn, SignUp, SignedIn, SignedOut, UserButton } from "@clerk/nextjs";
 
-export default function SignInPage() {
+export default function SignUpPage() {
     return (
-        <Container maxWidth="100vw">
-            <AppBar position="static">
-                <Toolbar>
-                    <Typography variant="h6" sx={{ flexGrow: 1 }}>
-                        Flashcard SaaS
-                    </Typography>
-                    <Button color="inherit">
-                        <Link href="/sign-in" passHref>
-                            Login
-                        </Link>
-                    </Button>
-                    <Button color="inherit">
-                        <Link href="/sign-up" passHref>
-                            Sign Up
-                        </Link>
-                    </Button>
-                </Toolbar>
-            </AppBar>
+        <Container maxWidth="100vw" disableGutters>
+            <AppBar position="static" sx={{ backgroundColor: '#000' }}> 
+                    <Toolbar>
+                        <Box sx={{flexGrow:1}}>
+                            <img src="/images/logo.png" alt="logo" width={60} height={50} />
+                        </Box>
+                        <SignedOut>
+                            <Button color="inherit" href="/sign-in">
+                                Login
+                            </Button>
+                            <Button color="inherit" href="/sign-up">
+                                Sign Up
+                            </Button>
+                        </SignedOut>
+                        <SignedIn>
+                            <UserButton />
+                        </SignedIn>
+                    </Toolbar>
+                </AppBar>
+
             <Box
                 display="flex"
                 flexDirection="column"
                 alignItems="center"
                 justifyContent="center"
             >
-                <Typography variant="h4"> Sign In</Typography>
+                <Typography variant="h4" padding={4} > Sign Up</Typography>
                 <SignIn />
             </Box>
         </Container>
