@@ -146,7 +146,7 @@ const faqs = [
   {
     question: "What features are available?",
     answer:
-      "Our app offers a range of features including:\n\n- **Easy Text Input**: Upload your notes or type directly to generate flashcards.\n- **Smart Flashcards**: AI-powered creation of concise and effective flashcards from your materials.\n- **Accessible Anywhere**: Study from any device with cloud sync.\n- **Customizable**: Edit and organize your flashcards to suit your study needs.\n- **Practice Tests**: Test your knowledge with built-in practice quizzes and receive feedback.",
+      "Our app offers a range of features including:\n\n- **Easy Text Input**: Upload your notes or type directly to generate flashcards.\n- **Smart Flashcards**: AI-powered creation of concise and effective flashcards from your materials. Accessible Anywhere: Study from any device with cloud sync. Customizable: Edit and organize your flashcards to suit your study needs. Practice Tests: Test your knowledge with built-in practice quizzes and receive feedback.",
   },
   {
     question: "Is there a free trial available?",
