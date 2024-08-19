@@ -353,8 +353,10 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
                     color: "#e0e0e0",
+                    justifyContent: "left",
+
                   }}
                 >
                   <CheckCircleIcon
@@ -366,7 +368,8 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
+                    justifyContent: "left",
                     color: "#e0e0e0",
                   }}
                   variant="body2"
@@ -384,8 +387,8 @@ export default function Home() {
                   p: 3,
                   border: "1px solid #26c6da",
                   borderRadius: 2,
-                  backgroundColor: "rgba(2, 21, 38, 0.8)", // Dark background
-                  color: "#fff", // Light text color
+                  backgroundColor: "rgba(2, 21, 38, 0.8)", 
+                  color: "#fff", 
                   transition: "transform 0.3s, box-shadow 0.3s",
                   "&:hover": {
                     transform: "scale(1.05)",
@@ -399,7 +402,8 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
+                    alignContent: "left",
                     color: "#e0e0e0",
                   }}
                 >
@@ -412,7 +416,8 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
+                    justifyContent: "left",
                     color: "#e0e0e0",
                   }}
                   variant="body2"
@@ -430,8 +435,8 @@ export default function Home() {
                   p: 3,
                   border: "1px solid #26c6da",
                   borderRadius: 2,
-                  backgroundColor: "rgba(2, 21, 38, 0.8)", // Dark background
-                  color: "#fff", // Light text color
+                  backgroundColor: "rgba(2, 21, 38, 0.8)", 
+                  color: "#fff", 
                   transition: "transform 0.3s, box-shadow 0.3s",
                   "&:hover": {
                     transform: "scale(1.05)",
@@ -445,7 +450,8 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
+                    justifyContent: "left",
                     color: "#e0e0e0",
                   }}
                 >
@@ -458,7 +464,8 @@ export default function Home() {
                 <Typography
                   sx={{
                     display: "flex",
-                    alignItems: "center",
+                    alignItems: "left",
+                    justifyContent: "left",
                     color: "#e0e0e0",
                   }}
                   variant="body2"
